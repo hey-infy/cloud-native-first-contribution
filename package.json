@@ -1,0 +1,23 @@
+{
+  "name": "cloud-native-first-contribution",
+  "version": "1.0.0",
+  "description": "A beginner-friendly project to demonstrate making a first open-source contribution in a cloud-native environment.",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node app/server.js",
+    "dev": "node --watch app/server.js"
+  },
+  "keywords": [
+    "cloud-native",
+    "kubernetes",
+    "docker",
+    "express",
+    "open-source",
+    "first-contribution"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

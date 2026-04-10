@@ -1,0 +1,23 @@
+# .dockerignore — files and folders to exclude from the Docker build context.
+# Keeping the build context small makes builds faster and images leaner.
+
+# Node dependencies (will be installed fresh inside the container)
+node_modules
+
+# Git history and metadata
+.git
+.gitignore
+
+# Kubernetes manifests (not needed inside the container)
+k8s/
+
+# Documentation (not needed at runtime)
+*.md
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/

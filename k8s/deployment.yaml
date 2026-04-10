@@ -1,0 +1,56 @@
+# ============================================================
+# k8s/deployment.yaml
+# A Kubernetes Deployment tells the cluster HOW to run our app:
+# which image to use, how many copies (replicas) to keep alive,
+# which port the container exposes, and health-check probes.
+# ============================================================
+
+apiVersion: apps/v1        # The Kubernetes API version for Deployments
+kind: Deployment           # Resource type
+metadata:
+  name: cloud-native-app   # Name of this Deployment
+  labels:
+    app: cloud-native-app  # Labels help Services and tools find this Deployment
+spec:
+  replicas: 1              # Run 1 copy of the pod (scale up by increasing this)
+  selector:
+    matchLabels:
+      app: cloud-native-app  # Must match the labels on the pod template below
+  template:
+    metadata:
+      labels:
+        app: cloud-native-app  # Pod labels
+    spec:
+      containers:
+        - name: cloud-native-app
+          # Replace with your actual Docker Hub image, e.g.:
+          # yourdockerhubusername/cloud-native-first-contribution:latest
+          image: cloud-native-first-contribution:latest
+          imagePullPolicy: IfNotPresent   # Use local image if available (great for local dev)
+          ports:
+            - containerPort: 3000         # The port our Express server listens on
+
+          # Liveness probe — Kubernetes restarts the pod if this fails
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10  # Wait 10s before first check
+            periodSeconds: 15        # Check every 15s
+
+          # Readiness probe — pod only receives traffic when this passes
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          # Resource limits — good practice even for small apps
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"

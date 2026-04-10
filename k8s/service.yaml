@@ -1,0 +1,26 @@
+# ============================================================
+# k8s/service.yaml
+# A Kubernetes Service exposes our pods to the network.
+# ClusterIP makes the app reachable inside the cluster.
+# Port 80 on the Service maps to port 3000 on the container.
+# ============================================================
+
+apiVersion: v1       # The Kubernetes API version for Services
+kind: Service        # Resource type
+metadata:
+  name: cloud-native-service  # Name of this Service
+  labels:
+    app: cloud-native-app
+spec:
+  # ClusterIP = internal cluster access only.
+  # Change to "NodePort" or "LoadBalancer" to expose externally.
+  type: ClusterIP
+
+  # Match pods that have this label (set in deployment.yaml)
+  selector:
+    app: cloud-native-app
+
+  ports:
+    - protocol: TCP
+      port: 80           # Port clients inside the cluster connect to
+      targetPort: 3000   # Port the container actually listens on
